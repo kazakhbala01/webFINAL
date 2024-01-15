@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Conversion </title>
+  <style>
+    #dropZone {
+      border: 2px dashed #ccc;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    #dropZone:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>File Conversion </h1>
+
+<div id="dropZone" onclick="clickFileInput()">
+  <p>Drop files here or click to select</p>
+  <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .docx" style="display: none">
+</div>
+
+<form id="conversionForm">
+  <label for="outputFormat">Choose output format:</label>
+  <select id="outputFormat" name="outputFormat">
+    <option value="txt">Text File (.txt)</option>
+    <option value="pdf">PDF (.pdf)</option>
+    <option value="docx">Word Document (.docx)</option>
+  </select>
+
+  <button type="button" onclick="convertFile()">Convert</button>
+</form>
+
+<script>
+  function clickFileInput() {
+    document.getElementById('fileInput').click();
+  }
+
+  function convertFile() {
+
+    var fileInput = document.getElementById('fileInput');
+
+
+    if (fileInput.files.length > 0) {
+
+      var outputFormat = document.getElementById('outputFormat').value;
+
+
+      var file = fileInput.files[0];
+
+
+      console.log('Converting file:', file.name, 'to', outputFormat);
+
+
+      fileInput.value = '';
+    } else {
+      alert('Please choose a file to convert.');
+    }
+  }
+
+
+  document.addEventListener('dragover', function (e) {
+    e.preventDefault();
+  });
+
+
+  document.getElementById('dropZone').addEventListener('drop', function (e) {
+    e.preventDefault();
+    var file = e.dataTransfer.files[0];
+    document.getElementById('fileInput').files = e.dataTransfer.files;
+    console.log('File dropped:', file.name);
+  });
+</script>
+
+</body>
+</html>
