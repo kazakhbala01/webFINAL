@@ -1,0 +1,55 @@
+<!-- Add the login form at the beginning of the body -->
+<body>
+<h1>File Uploader</h1>
+
+<!-- Login Form -->
+<form id="loginForm">
+  <input type="text" id="username" placeholder="Username" required />
+  <input type="password" id="password" placeholder="Password" required />
+  <button type="submit">Login</button>
+</form>
+
+<!-- File Upload Form -->
+<form id="uploadForm">
+  <input type="file" id="myFiles" accept="image/*" multiple />
+  <button>Submit</button>
+</form>
+
+<h2></h2>
+<h3></h3>
+
+<script>
+  // Existing file upload script
+
+  // Add login form script
+  const loginForm = document.getElementById('loginForm');
+
+  const loginUser = async () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const response = await fetch('http://localhost:3500/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const json = await response.json();
+
+    const h2 = document.querySelector('h2');
+    h2.textContent = `Status: ${json?.status}`;
+
+    const h3 = document.querySelector('h3');
+    h3.textContent = json?.message;
+
+    console.log(json);
+  };
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    loginUser();
+  });
+</script>
+</body>
